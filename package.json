@@ -1,0 +1,18 @@
+{
+  "name": "ee-editor",
+  "private": true,
+  "version": "0.1.0",
+  "description": "EE Editor - empacotado como aplicativo desktop com Tauri",
+  "scripts": {
+    "icons": "node scripts/gen-icons.mjs",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:win": "tauri build --target x86_64-pc-windows-msvc --bundles nsis",
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.1.0",
+    "png-to-ico": "^2.1.8",
+    "sharp": "^0.33.5"
+  }
+}

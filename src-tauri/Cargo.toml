@@ -1,0 +1,32 @@
+[package]
+name = "ee"
+version = "0.1.0"
+description = "EE Editor"
+authors = ["mdgverse"]
+edition = "2021"
+rust-version = "1.77.2"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# ---------------------------------------------------------------
+# Perfil de release ajustado para arranque rapido + binario enxuto
+# ---------------------------------------------------------------
+[profile.release]
+opt-level = 3        # maxima velocidade de execucao
+lto = "fat"          # link-time optimization agressiva entre crates
+codegen-units = 1    # melhor otimizacao global (build mais lento, runtime mais rapido)
+panic = "abort"      # remove a maquinaria de unwinding
+strip = true         # remove simbolos de debug do .exe
+incremental = false
+
+# Dependencias tambem otimizadas no perfil de dev, para o `tauri dev` nao arrastar
+[profile.dev.package."*"]
+opt-level = 2

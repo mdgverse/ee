@@ -1,0 +1,53 @@
+name: Build Windows installer
+
+on:
+  push:
+    branches: [arena/01a10942-ee, main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar toolchain Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Cache do build Rust
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - name: Instalar dependencias Node
+        run: npm ci
+
+      - name: Gerar icones
+        run: npm run icons
+
+      - name: Compilar o app + instalador NSIS
+        run: npm run build:win
+
+      - name: Publicar artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: ee-editor-windows
+          if-no-files-found: error
+          path: |
+            src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe
+            src-tauri/target/x86_64-pc-windows-msvc/release/*.exe
+
+      - name: Anexar ao release (somente em tags)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe
