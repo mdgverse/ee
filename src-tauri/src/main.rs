@@ -32,5 +32,5 @@ fn main() {
             Ok(())
         })
         .run(tauri::generate_context!())
-        .expect("erro ao iniciar o EE Editor");
+        .expect("erro ao iniciar o Everything Editor");
 }

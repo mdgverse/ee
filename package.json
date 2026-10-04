@@ -1,9 +1,10 @@
 {
   "name": "ee-editor",
   "private": true,
-  "version": "0.1.0",
-  "description": "EE Editor - empacotado como aplicativo desktop com Tauri",
+  "version": "1.6.0",
+  "description": "Everything Editor - empacotado como aplicativo desktop com Tauri",
   "scripts": {
+    "frontend": "node scripts/prepare-frontend.mjs",
     "icons": "node scripts/gen-icons.mjs",
     "dev": "tauri dev",
     "build": "tauri build",

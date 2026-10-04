@@ -4,3 +4,7 @@ src-tauri/target/
 src-tauri/gen/
 *.log
 .DS_Store
+
+# Frontend gerado por scripts/prepare-frontend.mjs a partir do HTML original
+src/index.html
+src/fonts/
